@@ -1,8 +1,8 @@
 name: Build Release
-on:
-  push:
-    tags:
-    - v*
+on: push
+  # push:
+  #   tags:
+  #   - v*
 jobs:
   create-release:
     runs-on: 'ubuntu-latest'
