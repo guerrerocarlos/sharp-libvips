@@ -39,6 +39,7 @@ VERSION_PIXMAN=0.38.4
 VERSION_CAIRO=1.16.0
 VERSION_FRIBIDI=1.0.9
 VERSION_PANGO=1.44.7
+VERSION_LIBHEIF=1.6.2
 VERSION_SVG=2.48.0
 VERSION_GIF=5.1.4
 
@@ -78,6 +79,8 @@ version_latest "pixman" "$VERSION_PIXMAN" "3648"
 #version_latest "cairo" "$VERSION_CAIRO" "247" # latest version in release monitoring does not exist
 version_latest "fribidi" "$VERSION_FRIBIDI" "857"
 version_latest "pango" "$VERSION_PANGO" "11783"
+version_latest "libheif" "$VERSION_LIBHEIF" "64439"
+version_latest "vips" "$VERSION_VIPS" "5097"
 version_latest "svg" "$VERSION_SVG" "5420"
 #version_latest "gif" "$VERSION_GIF" "1158" # v5.1.5+ provides a Makefile only so will require custom cross-compilation setup
 if [ "$ALL_AT_VERSION_LATEST" = "false" ]; then exit 1; fi
@@ -262,6 +265,13 @@ make install-strip
 # Clear executable bit from librsvg shared library for WSL support
 execstack -c ${TARGET}/lib/librsvg-2.so || true
 
+mkdir ${DEPS}/libheif
+curl -Ls https://github.com/strukturag/libheif/releases/download/v${VERSION_LIBHEIF}/libheif-${VERSION_LIBHEIF}.tar.gz | tar xzC ${DEPS}/libheif --strip-components=1
+cd ${DEPS}/libheif
+./autogen.sh
+./configure
+make
+
 mkdir ${DEPS}/gif
 curl -Ls https://sourceforge.mirrorservice.org/g/gi/giflib/giflib-${VERSION_GIF}.tar.gz | tar xzC ${DEPS}/gif --strip-components=1
 cd ${DEPS}/gif
@@ -314,6 +324,7 @@ printf "{\n\
   \"vips\": \"${VERSION_VIPS}\",\n\
   \"webp\": \"${VERSION_WEBP}\",\n\
   \"xml\": \"${VERSION_XML2}\",\n\
+  \"libheif\": \"${VERSION_LIBHEIF}\",\n\
   \"zlib\": \"${VERSION_ZLIB}\"\n\
 }" >versions.json
 
