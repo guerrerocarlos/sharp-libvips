@@ -265,13 +265,22 @@ make install-strip
 # Clear executable bit from librsvg shared library for WSL support
 execstack -c ${TARGET}/lib/librsvg-2.so || true
 
+mkdir ${DEPS}/libde265
+curl -Ls https://github.com/strukturag/libde265/releases/download/v1.0.5/libde265-1.0.5.tar.gz | tar xzC ${DEPS}/libde265 --strip-components=1
+cd ${DEPS}/libde265
+mkdir build
+cd build
+cmake ..
+make
+make install-strip
+
 mkdir ${DEPS}/libheif
 curl -Ls https://github.com/strukturag/libheif/releases/download/v${VERSION_LIBHEIF}/libheif-${VERSION_LIBHEIF}.tar.gz | tar xzC ${DEPS}/libheif --strip-components=1
 cd ${DEPS}/libheif
 ./autogen.sh
 ./configure 
 make
-make install
+make install-strip
 
 mkdir ${DEPS}/gif
 curl -Ls https://sourceforge.mirrorservice.org/g/gi/giflib/giflib-${VERSION_GIF}.tar.gz | tar xzC ${DEPS}/gif --strip-components=1
