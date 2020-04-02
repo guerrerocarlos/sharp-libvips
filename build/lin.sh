@@ -269,8 +269,9 @@ mkdir ${DEPS}/libheif
 curl -Ls https://github.com/strukturag/libheif/releases/download/v${VERSION_LIBHEIF}/libheif-${VERSION_LIBHEIF}.tar.gz | tar xzC ${DEPS}/libheif --strip-components=1
 cd ${DEPS}/libheif
 ./autogen.sh
-./configure
+./configure 
 make
+make install
 
 mkdir ${DEPS}/gif
 curl -Ls https://sourceforge.mirrorservice.org/g/gi/giflib/giflib-${VERSION_GIF}.tar.gz | tar xzC ${DEPS}/gif --strip-components=1
